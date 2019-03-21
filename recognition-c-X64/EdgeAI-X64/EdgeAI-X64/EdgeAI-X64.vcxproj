@@ -151,14 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="model.h" />
+    <ClInclude Include="bp-model.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="picture-data.h" />
     <ClInclude Include="sys.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bp-model.cpp" />
     <ClCompile Include="EdgeAI-X64.cpp" />
-    <ClCompile Include="model.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

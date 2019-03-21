@@ -21,10 +21,10 @@
     <ClInclude Include="picture-data.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="model.h">
+    <ClInclude Include="sys.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sys.h">
+    <ClInclude Include="bp-model.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,7 +38,7 @@
     <ClCompile Include="picture-data.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
+    <ClCompile Include="bp-model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
