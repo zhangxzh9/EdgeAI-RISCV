@@ -3,9 +3,7 @@
 
 from __future__ import absolute_import, division, print_function
 import sys
-import MODEL_STORE
-import MODEL_TRAIN
-
+import MODEL
 
 def Fuc():
 	print ('hello')
@@ -13,16 +11,17 @@ def Fuc():
 
     
 if __name__ == '__main__':
-	if len(sys.argv) != 3:
-		print ('Usage: python input_name output_name')
+	if len(sys.argv) != 2:
+		print ('Usage: python -option(-train/-run_weight/-run_model)')
 		exit(1)
 	else:
 		Fuc()
-	if sys.argv[2] == 'train':
+	if sys.argv[1] == '-train':
 		print ('----TRAIN MODEL----')
-		MODEL_TRAIN.train()
-	elif sys.argv[2] == 'store':
-		print ('----STORE MODEL----')
-		MODEL_STORE.store()
+		MODEL.train_simple()
+	elif sys.argv[1] == '-run_weight':
+		print ('----RUN MODEL----')
+		MODEL.RUN_weight()
 	else:
-		print ('close')
+		print ('----RUN MODEL----')
+		MODEL.RUN_model()
