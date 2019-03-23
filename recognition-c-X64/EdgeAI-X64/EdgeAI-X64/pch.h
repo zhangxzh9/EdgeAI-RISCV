@@ -9,6 +9,11 @@
 #ifndef PCH_H
 #define PCH_H
 
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+#include <stdlib.h>
+#include "sys.h"
 // TODO: 添加要在此处预编译的标头
 
 #endif //PCH_H

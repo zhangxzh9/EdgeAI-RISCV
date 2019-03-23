@@ -1,7 +1,9 @@
 #pragma once
-#ifndef __PICTURE-DATA__H
-#define __PICTURE-DATA__H
+#ifndef __PICTUREDATA__H
+#define __PICTUREDATA__H
 
 #include "sys.h"
-void readData(void);
+void readData();
+void writeTest();
+void writeNeuron();
 #endif // !__PICTURE-DATA__H
