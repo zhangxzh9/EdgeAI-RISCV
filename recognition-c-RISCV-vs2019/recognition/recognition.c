@@ -6,10 +6,6 @@
 #include <string.h>
 #include "data.h"
 
-const double Minin[In]   = { 0.000000 ,0.000000 };
-const double Maxin[In]   = { 9.990000 ,9.980000 };
-const double Minout[Out] = { 1.160000 };
-const double Maxout[Out] = {19.780000 };
 
 double o[Neuron] = {0.0};
 double Output[Out] = {0.0};
@@ -51,7 +47,7 @@ int main(int argc, char **argv)
 {
   int i = 0;
   double var1[784];
-
+  scanf();
 	printf("%lf forecast is %d \n", var1[0], result(var1));
   return 0;
 
