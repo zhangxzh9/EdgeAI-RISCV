@@ -4,7 +4,7 @@ import sys
 import h5py
 import numpy as np
 
-def weights_conv(h5_name):
+def weights_h5totxt(h5_name):
     f= h5py.File(h5_name,'r')
     f_keys = f.keys()
     weight = {}
@@ -27,6 +27,6 @@ def weights_conv(h5_name):
     
     for n in range(n3): 
         if n%2 == 0:
-            np.savetxt("bias{}.txt".format(n//2), data[n])
+            np.savetxt("./model_data/bias{}.txt".format(n//2), data[n])
         else:
-            np.savetxt("kernel{}.txt".format(n//2), data[n])
+            np.savetxt("./model_data/kernel{}.txt".format(n//2), data[n])

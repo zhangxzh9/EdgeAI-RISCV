@@ -10,7 +10,7 @@ def Fuc():
 	print ('hello')
 
 if __name__ == '__main__':
-	if len(sys.argv) != (3 and 2) :
+	if len(sys.argv) != 3 and len(sys.argv) != 2 :
 		print ('Usage: python -option(-train/-run_weight/-run_model/-conv)')
 		exit(1)
 	else:
@@ -27,7 +27,7 @@ if __name__ == '__main__':
 		else:
 			print ('----CONVERT THE WEIGHTS TO TXT FORMAT----')
 			h5_name = sys.argv[2]
-			conv.weights_conv(h5_name)
+			conv.weights_h5totxt(h5_name)
 	else:
 		print ('----RUN MODEL BY LOADING THE HOLD MODEL----')
 		MODEL.RUN_model()
