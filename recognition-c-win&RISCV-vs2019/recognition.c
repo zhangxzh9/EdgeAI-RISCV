@@ -2,13 +2,22 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <string.h>
 #include "data.h"
 
 
 double o[Neuron] = {0.0};
 double Output[Out] = {0.0};
+
+double exp(double x)
+{
+	x = 1.0 + x / 256;
+	for (int i = 0; i < 8; i++) {
+		x *= x;
+	}
+	return x;
+}
+
 unsigned int result(double *var1)
 {
 	int i, j;
@@ -22,7 +31,7 @@ unsigned int result(double *var1)
 			var1++;
 		}
 		o[i] = sum + bias0[i];
-		o[i] =	1 / (1 + exp(-1 * o[i]));
+		o[i] = o[i] >= 0 ? o[i] : 0;//relu activaction
 	}
 	sum = 0;
 	for (i = 0; i < Out; ++i) {
