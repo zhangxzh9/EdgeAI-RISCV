@@ -59,7 +59,7 @@ def parese_idx1(idx1_file):
 if __name__ == '__main__':
     output_path = os.path.abspath('.')
     print(output_path)
-    path = '/MNIST_dataout/data'
+    path = '/MNIST_dataout/picture'
     try:
         shutil.rmtree(output_path+path)
     except OSError:
@@ -85,6 +85,5 @@ if __name__ == '__main__':
         #保存图片(序号-label.png)
         save_file = output_path+ path +'/' + 'No.'+str(i) + '.png'
         image.save(save_file) 
-        #保存对应位数据
         save_file = output_path+ path + "/No.{}-{}.txt".format(i,int(num))
         np.savetxt(save_file,img,fmt='%3d',)

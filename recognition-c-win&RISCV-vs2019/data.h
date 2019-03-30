@@ -7,6 +7,7 @@
 #define Out 10
 #define Neuron 48
 
+extern const unsigned char test_data[1][784];
 extern const double In_Neuron[In][Neuron];
 extern const double Neuron_Out[Neuron][Out];
 extern const double bias0[Neuron];
