@@ -74,6 +74,7 @@ int main(int argc, char **argv)
 		var[i] = test_data[0][i] / 255.0;
 	}
 	res = result(var);
+	printf("the picture's label is %d\n", 7);
 	for (i = 0; i < Out; i++)
 	{
 		printf("%d:%lf\n",i,res[i]);
