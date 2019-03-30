@@ -132,7 +132,7 @@ def RUN_model():
     
 def creat_model():    
     model = keras.Sequential([
-        keras.layers.Flatten(input_shape=(28, 28)),
+        keras.layers.Flatten(input_shape=(784,)),
         keras.layers.Dense(48, activation=tf.nn.relu),
         keras.layers.Dense(10, activation=tf.nn.softmax)
     ])

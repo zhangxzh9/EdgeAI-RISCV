@@ -47,7 +47,6 @@ int main(int argc, char **argv)
 {
 	int i = 0;
 	double var1[784];
-	scanf();
 	printf("%lf forecast is %d \n", var1[0], result(var1));
 	return 0;
 

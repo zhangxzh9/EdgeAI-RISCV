@@ -57,16 +57,15 @@ def parese_idx1(idx1_file):
         offset += struct.calcsize(fmt_image)
     return labels
 if __name__ == '__main__':
-    output_path = '/home/zhang/workshape/MNIST_data'
     output_path = os.path.abspath('.')
     print(output_path)
-    path = '/data'
+    path = '/MNIST_dataout/data'
     try:
         shutil.rmtree(output_path+path)
     except OSError:
         print('dir dose not exits') 
-    imgs = parese_idx3("t10k-images.idx3-ubyte")
-    labs = parese_idx1("t10k-labels.idx1-ubyte")
+    imgs = parese_idx3("./MNIST_dataout/t10k-images.idx3-ubyte")
+    labs = parese_idx1("./MNIST_dataout/t10k-labels.idx1-ubyte")
     os.mkdir(output_path+path)
     for i in range(100):
         print(imgs[i])
@@ -87,4 +86,5 @@ if __name__ == '__main__':
         save_file = output_path+ path +'/' + 'No.'+str(i) + '.png'
         image.save(save_file) 
         #保存对应位数据
-        np.savetxt("./data/No.{}-{}.txt".format(i,int(num)),img,fmt='%3d',)
+        save_file = output_path+ path + "/No.{}-{}.txt".format(i,int(num))
+        np.savetxt(save_file,img,fmt='%3d',)
