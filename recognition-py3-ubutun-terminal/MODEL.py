@@ -14,32 +14,9 @@ from tensorflow import keras
 import numpy as np
 import matplotlib.pyplot as plt
 
-def MNISTtotxt(train_images,train_labels,test_images,test_labels):
-    output_path = os.path.abspath('.')
-    #设置图片保存路径
-    path = '/MNIST_dataout/train_data'
-    try:
-        shutil.rmtree(output_path + path)
-    except OSError:
-        print('dir dose not exits') 
-    os.mkdir(output_path + path)
-    #保存对应位数据
-    for num in range(500):
-        save_file = output_path+ path + "/No.{}-{}.txt".format(num,int(train_labels[num]))
-        np.savetxt(save_file,train_images[num]*255,fmt='%3d',)
-    path = '/MNIST_dataout/test_data'
-    try:
-        shutil.rmtree(output_path + path)
-    except OSError:
-        print('dir dose not exits') 
-    os.mkdir(output_path + path)
-    #保存对应位数据
-    for num in range(500):
-        save_file = output_path+ path + "/No.{}-{}.txt".format(num,int(test_labels[num]))
-        np.savetxt(save_file,test_images[num]*255,fmt='%3d',)
-        
+
+
 def train_simple():
-    output_path = os.path.abspath('.')
     print('-----step one: download and load up the datasets-----')    
     #fashion_mnist = keras.datasets.mnist
     #(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
@@ -58,7 +35,7 @@ def train_simple():
     test_images = x_test.reshape(-1,784).astype('float32')
     y_test = [np.argmax(y, axis=None, out=None) for y in y_test]
     test_labels =np.array(y_test).reshape(-1,1)
-    MNISTtotxt(train_images,test_labels,test_images,test_labels)#保存成TXT格式
+        
     print('-----step two finsh-----')
     
     print('-----step three: build the model -----')
