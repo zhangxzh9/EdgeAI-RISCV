@@ -57,16 +57,17 @@ def parese_idx1(idx1_file):
         offset += struct.calcsize(fmt_image)
     return labels
 if __name__ == '__main__':
-    output_path = os.path.abspath('.')
+    output_path = os.path.abspath('.')+'/MNIST_data_output'
     print(output_path)
-    path = '/MNIST_dataout/picture'
+    path = '/picture'
     try:
         shutil.rmtree(output_path+path)
     except OSError:
         print('dir dose not exits') 
-    imgs = parese_idx3("./MNIST_dataout/t10k-images.idx3-ubyte")
-    labs = parese_idx1("./MNIST_dataout/t10k-labels.idx1-ubyte")
     os.mkdir(output_path+path)
+    imgs = parese_idx3(output_path+"/t10k-images.idx3-ubyte")
+    labs = parese_idx1(output_path+"/t10k-labels.idx1-ubyte")
+    
     for i in range(100):
         print(imgs[i])
         print(labs[i])

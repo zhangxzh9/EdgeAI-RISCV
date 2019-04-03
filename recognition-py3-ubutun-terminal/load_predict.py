@@ -16,12 +16,12 @@ img = cv2.imread(sys.argv[1], cv2.IMREAD_GRAYSCALE)
 print('img.shape = ', img.shape)
 img = img.astype('float32')
 img /= 255.0
-img = img.reshape(1, 28, 28)
+img = img.reshape(1, 784)
 
 # Initialize a tensorflow session
 with tf.Session() as sess:
     # Load the protobuf graph
-    with gfile.FastGFile("model_data/simple_model.h5.pb",'rb') as f:
+    with gfile.FastGFile("model_data/simple_model.pb",'rb') as f:
         graph_def = tf.GraphDef()
         graph_def.ParseFromString(f.read())
         # Add the graph to the session

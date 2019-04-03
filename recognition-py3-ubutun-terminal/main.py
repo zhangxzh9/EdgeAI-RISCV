@@ -22,12 +22,7 @@ if __name__ == '__main__':
 		print ('----RUN MODEL BY LOADING WEIGHTS----')
 		MODEL.RUN_weight()
 	elif sys.argv[1] == '-conv':
-		if sys.argv[2] == '':
-			print('exam: python -conv weights.h5')
-		else:
-			print ('----CONVERT THE WEIGHTS TO TXT FORMAT----')
-			h5_name = sys.argv[2]
-			conv.weights_h5totxt(h5_name)
+		conv.weights_h5totxt()
 	else:
 		print ('----RUN MODEL BY LOADING THE HOLD MODEL----')
 		MODEL.RUN_model()

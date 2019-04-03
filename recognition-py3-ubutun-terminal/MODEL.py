@@ -49,16 +49,16 @@ def train_simple():
     print('-----successully setup a model -----')
     
     print('-----step five: save the model -----')
-    
-    
+    saved_model_dir ='./model_data'
     try:
-        shutil.rmtree('./model_data')
+        shutil.rmtree(saved_model_dir)
     except OSError:
         print('dir dose not exits') 
-    os.mkdir('./model_data')
-    model.save('./model_data/simple_model.h5')
-    model.save_weights('./model_data/my_checkpoint')
-    model.save_weights('./model_data/weights.h5', save_format = 'h5')
+    os.mkdir(saved_model_dir)
+    model.save(saved_model_dir+'/simple_model.h5')
+    model.save_weights(saved_model_dir+'/my_checkpoint')
+    model.save_weights(saved_model_dir+'/weights.h5', save_format = 'h5')
+    
     print('-----step five finish -----')
     
     print('-----now do a prediction -----')
