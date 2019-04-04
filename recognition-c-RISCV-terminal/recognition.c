@@ -92,11 +92,11 @@ int main(int argc, char **argv)
 	int_8t num = -1;
 	for (j = 0; j < 3; j++) {
 		num = result(test_data[j]);
-		for (i = 0; i < Out; i++)
-		{
-			printf("%d:%f\n", i, Output[i]);
-		}
-		printf("predict num is: %d\n", num);
+//		for (i = 0; i < Out; i++)
+//		{
+//			printf("%d:%f\n", i, Output[i]);
+//		}
+		printf("predict NO.%d num is: %d\n", j ,num);
 	}
 	
 	return 0;
