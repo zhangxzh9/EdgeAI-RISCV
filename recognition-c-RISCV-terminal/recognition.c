@@ -5,7 +5,7 @@
 #include <string.h>
 #include "data.h"
 
-float exp(float x)
+float my_exp(float x)
 {
 	x = 1.0 + x / 256.0;
 	for (int i = 0; i < 8; i++) {
@@ -17,7 +17,7 @@ float exp(float x)
 //对每一行进行softmax
 void softmax(float* x, unsigned char row, unsigned char column)
 {
-	uint_8t k, j;
+	uint8_t k, j;
 	for (j = 0; j < row; ++j)
 	{
 		float max = 0.0;
@@ -27,7 +27,7 @@ void softmax(float* x, unsigned char row, unsigned char column)
 				max = x[k + j * column];
 		for (k = 0; k < column; ++k)
 		{
-			x[k + j * column] = exp(x[k + j * column] - max);    // prevent data overflow
+			x[k + j * column] = my_exp(x[k + j * column] - max);    // prevent data overflow
 			sum += x[k + j * column];
 		}
 		for (k = 0; k < column; ++k) 
@@ -35,8 +35,8 @@ void softmax(float* x, unsigned char row, unsigned char column)
 	}
 }   //row*column
 
-uint_8t max_probability(float* x) {
-	uint_8t num_max=0,i = 0;
+uint8_t max_probability(float* x) {
+	uint8_t num_max=0,i = 0;
 	float num = 0.0;
 	for (i = 0; i < Out; i++) {
 		if (num <= * x) {
@@ -47,14 +47,16 @@ uint_8t max_probability(float* x) {
 	}
 	return num_max;
 }
-uint_8t  result(uint_8t * var1)
+float Output[Out] = { 0.0 };
+uint8_t  result(uint8_t * var1)
 {
-	uint_8t  i=0;
-	uint_8t data[In] = {0};
-	uint_16t j=0;
-	int_32t o[Neuron] = { 0 };//max:2^8 * 2^8 * 784
-	int_64t sum = 0;        //max:2^8 * 2^8 * 784 * 2^8 * 48
-	int_64t sumb = 0;       //max:2^8 * 2^8 * 784 * 2^8 * 48
+	uint8_t  i=0;
+	uint8_t data[In] = {0};
+	uint16_t j=0;
+	int32_t o[Neuron] = { 0 };//max:2^8 * 2^8 * 784
+	int64_t sum = 0;        //max:2^8 * 2^8 * 784 * 2^8 * 48
+	int64_t sumb = 0;       //max:2^8 * 2^8 * 784 * 2^8 * 48
+	
 
 	for (j = 0; j < In; j++) {
 		data[j] = *var1;
@@ -88,15 +90,18 @@ uint_8t  result(uint_8t * var1)
 
 int main(int argc, char **argv)
 {
-	uint_8t i = 0,j = 0;
-	int_8t num = -1;
-	for (j = 0; j < 3; j++) {
-		num = result(test_data[j]);
-//		for (i = 0; i < Out; i++)
-//		{
-//			printf("%d:%f\n", i, Output[i]);
-//		}
-		printf("predict NO.%d num is: %d\n", j ,num);
+	uint8_t i = 0,j = 0;
+	int8_t num = -1;
+
+	while (1) {
+		for (j = 0; j < 3; j++) {
+			num = result(test_data[j]);
+					for (i = 0; i < Out; i++)
+					{
+						printf("%d:%f\n", i, Output[i]);
+					}
+			printf("predict NO.%d num is: %d\n", j, num);
+		}
 	}
 	
 	return 0;

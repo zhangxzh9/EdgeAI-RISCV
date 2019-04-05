@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\data.c" />
-    <ClCompile Include="..\recognition.c" />
+    <ClCompile Include="..\recognition_float.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\data.h" />

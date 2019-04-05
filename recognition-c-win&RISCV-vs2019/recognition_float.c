@@ -5,7 +5,7 @@
 #include <string.h>
 #include "data.h"
 
-float exp(float x)
+float my_exp(float x)
 {
 	x = 1.0 + x / 256.0;
 	for (int i = 0; i < 8; i++) {
@@ -15,9 +15,9 @@ float exp(float x)
 }
 
 //对每一行进行softmax
-void softmax(float* x, unsigned char row, unsigned char column)
+void softmax(float* x, uint8_t row, uint8_t column)
 {
-	unsigned char k, j;
+	uint8_t k, j;
 	for (j = 0; j < row; ++j)
 	{
 		float max = 0.0;
@@ -27,21 +27,34 @@ void softmax(float* x, unsigned char row, unsigned char column)
 				max = x[k + j * column];
 		for (k = 0; k < column; ++k)
 		{
-			x[k + j * column] = exp(x[k + j * column] - max);    // prevent data overflow
+			x[k + j * column] = my_exp(x[k + j * column] - max);    // prevent data overflow
 			sum += x[k + j * column];
 		}
 		for (k = 0; k < column; ++k) 
 			x[k + j * column] /= sum;
 	}
 }   //row*column
-
-float *  result(float * var1)
+uint8_t max_probability(float* x) {
+	uint8_t num_max = 0, i = 0;
+	float num = 0.0;
+	for (i = 0; i < Out; i++) {
+		if (num <= *x) {
+			num = *x;
+			num_max = i;
+		}
+		x++;
+	}
+	return num_max;
+}
+float Output[Out] = { 0.0 };
+uint8_t  result(float * var1)
 {
-	int i, j;
+	uint8_t i;
+	uint16_t j;
 	float sum=0.0;
-	float data[In] = {0.0} , o[Neuron] = { 0.0 }, Output[Out] = { 0.0 };
-	for (i = 0; i < In; i++) {
-		data[i] = *var1;
+	float data[In] = {0.0} , o[Neuron] = { 0.0 };
+	for (j = 0; j < In; j++) {
+		data[j] = *var1;
 		var1++;
 	}
 	/*preprocessing the data*/
@@ -62,21 +75,29 @@ float *  result(float * var1)
 		Output[i] = sum + bias1[i];
 	}
 	softmax(Output, 1, Out);
-	return Output;
+	return max_probability(Output);
 }
 
 int main(int argc, char **argv)
 {
-	unsigned int i = 0;
-	float var[In],*res;
-	for (i = 0; i < 784; i++)
-	{
-		var[i] = test_data[0][i] / 255.0;
+	uint16_t i = 0;
+	float var[In] = {0.0};
+	uint8_t res,j;
+
+	while (1) {
+		for (j = 0; j < 3; j++) {
+			for (i = 0; i < 784; i++)
+			{
+				var[i] = test_data[j][i] / 255.0;
+			}
+			res = result(var);
+			for (i = 0; i < Out; i++)
+			{
+				printf("%d:%lf\n", i, Output[i]);
+			}
+			printf("prection is %d\n\n", res);
+		}
 	}
-	res = result(var);
-	for (i = 0; i < Out; i++)
-	{
-		printf("%d:%lf\n",i,res[i]);
-	}
+	
 	return 0;
 }

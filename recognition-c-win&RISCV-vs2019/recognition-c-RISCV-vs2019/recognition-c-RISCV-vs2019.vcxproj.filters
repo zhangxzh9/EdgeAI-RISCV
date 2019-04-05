@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\recognition.c">
+    <ClCompile Include="..\data.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\data.c">
+    <ClCompile Include="..\recognition_float.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
