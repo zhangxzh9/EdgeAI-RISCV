@@ -2,7 +2,7 @@
 #ifndef __DATA__H
 #define __DATA__H
 
-#define RISCV_VS
+//#define RISCV_VS
 
 #ifdef RISCV_VS
 
@@ -29,5 +29,5 @@ extern int16_t bias0[Neuron];
 extern float bias1[Out];
 extern uint8_t b[2];
 extern float k[2];
-
+extern float Output[Out];
 #endif // !__DATA__H
