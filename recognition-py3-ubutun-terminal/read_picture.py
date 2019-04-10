@@ -1,4 +1,5 @@
-#coding=UTF-8
+#usr/bin/python3
+# -*- coding: utf-8 -*-
 import numpy as np
 import struct
 import matplotlib.pyplot as plt
@@ -56,6 +57,7 @@ def parese_idx1(idx1_file):
         labels[i] = struct.unpack_from(fmt_image, bin_data, offset)[0]
         offset += struct.calcsize(fmt_image)
     return labels
+
 if __name__ == '__main__':
     output_path = os.path.abspath('.')+'/MNIST_data_output'
     print(output_path)
