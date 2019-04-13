@@ -1,7 +1,7 @@
 #pragma once
 #ifndef __DATA__H
 #define __DATA__H
-//#define RISCV_E203
+#define RISCV_E203
 
 #ifndef RISCV_E203
 
@@ -22,7 +22,7 @@ typedef short int int16_t;
 #define Neuron 48
 
 
-extern const uint8_t test_data[3][784];
+extern uint8_t test_data[3][784];
 extern const float In_Neuron[In][Neuron];
 extern const float Neuron_Out[Neuron][Out];
 extern const float bias0[Neuron];
