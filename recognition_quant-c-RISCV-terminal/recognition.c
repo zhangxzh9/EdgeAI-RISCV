@@ -46,6 +46,11 @@ uint8_t _getdata(uint8_t * data){
   }
   return 0;
 } */
+uint64_t readMtime(){
+    volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
+    return *mtime;
+}
+
 
 int main(int argc, char **argv)
 {
@@ -53,7 +58,10 @@ int main(int argc, char **argv)
 	uint16_t j = 0;
 	int8_t num = -1;
 	uint8_t uratdata_q;
-	for (j = 0; j < 3; j++) {
+    uint64_t begintime = 0,endtime = 0;
+    uint64_t usetime = 0,thistime = 0;
+    
+    for (j = 0; j < 3; j++) {
 		num = result(test_data[j]);
 		for (i = 0; i < Out; i++){
 			printf("%d:%f \r\n", i, Output[i]);
@@ -76,14 +84,25 @@ int main(int argc, char **argv)
 		for (j = 0;j < 784;j++) {
 			while (!_getdata(&uratdata_q));
 			test_data[0][j] = uratdata_q;
-            printf("\r\n");
+            //printf("\r\n");
 		}
+
+        begintime = readMtime();
 		num = result(test_data[0]);
+        endtime = readMtime();
+
 		for (i = 0; i < Out; i++){
 			printf("%d:%f\r\n", i, Output[i]);
-		}	
-		printf("predict NO.%d num is: %d\r\n", j, num);
-        printf("finish\r\n", j, num);
+		}
+		printf("pridicted number is:\r\n", j, num);
+		printf("%d\r\n",num);
+        
+        thistime = endtime - begintime;
+        //printf("this time:%lu\r\n", thistime);
+        usetime += thistime;
+        printf("use time:%lu\r\n",usetime);
+
+        printf("finish\r\n");
     }
 	return 0;
 }

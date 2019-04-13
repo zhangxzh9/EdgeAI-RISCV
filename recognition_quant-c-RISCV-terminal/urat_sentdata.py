@@ -76,7 +76,7 @@ def recv_all(serial):
             if(i<10):
                 pass
             else:
-                print('time out!')
+                print('please reset the E203')
                 break
         else:
             break
@@ -93,7 +93,7 @@ def recv_line(serial):
             if(i<10):
                 pass
             else:
-                print('time out!')
+                print('please reset the E203')
                 break
         else:
             break
@@ -107,7 +107,8 @@ if __name__ == '__main__':
     picture_path = '/picture'
     imgs = parese_idx3(output_path+"/t10k-images.idx3-ubyte")
     labs = parese_idx1(output_path+"/t10k-labels.idx1-ubyte")
-
+    imgs = imgs.reshape(-1,784).astype('uint8')
+    #print(imgs[0])
     try:
         os.mkdir(output_path+picture_path)
         for i in range(100):
@@ -133,29 +134,32 @@ if __name__ == '__main__':
             np.savetxt(save_file,img,fmt='%3d',)
     except OSError:
         print('dir exits') 
-    '''
 
-    '''
     try:
         ser = Serial(sys.argv[1], 115200, timeout=0.5)
+        print('open '+sys.argv[1]+' and connect the E203 successfully !')
     except:
-        print('could not open'+sys.argv[1]+'please check u connection')
+        print('could not open '+sys.argv[1]+' please check u connection')
         exit();
 
     if sys.argv[2]== '-testall':
-        #read the 
         while True:
             data = recv_line(ser)
             print(bytes.decode(data))
             if data == b'\rfinish\r\n':
                 break
-            elif data == b'':
-                print('please reset the E203')
             else:
                 pass
-
-        for pit_num in range (imgs.length()):
-            print("the picture labels is" + num[pit_num])
+        print("*******************************重启自检测试成功***********************************")
+        print("---------------------------------开始图片测试-------------------------------------")
+        print("----------------------------------------------------------------------------------")
+        print("----------------------------------------------------------------------------------")
+        print("----------------------------------------------------------------------------------")
+        correctnum = 0
+        errornum = 0
+        for pit_num in range (len(imgs)):
+            thislab = labs[pit_num].astype(np.uint8)
+            print("**************************第{}张图片标签为：{}**************************\n".format(pit_num,thislab))
             while True:
                 ser.write(b'b')
                 data = recv_line(ser)
@@ -170,16 +174,48 @@ if __name__ == '__main__':
                         print('fail to handshake')
                 else:
                     print('fail to handshake')
-            
-            print("------------------------begin download-----------------------")
-            for i in range(imgs[pit_num].length()):
-                num = imgs[pit_num][i]
+                    
+            print("----下载图片----")
+            for i in range(len(imgs[pit_num])):
+                #print(len(imgs[pit_num]))
+                num = imgs[pit_num][i].astype(np.uint8)
+                #print('write data is: ' + str(num))
                 ser.write(bytes([num]))
-                data = recv_line(ser)
-            print("-----------------finish download NO.{} picture-----------------".format(pit_num))
+                #data = recv_line(ser)
+                #sleep(0.001)
+                if i == (len(imgs[pit_num]) - 1):
+                    print("进度:{0}%".format(round((i + 1) * 100 / len(imgs[pit_num]))))
+                else:
+                    print("进度:{0}%".format(round((i + 1) * 100 / len(imgs[pit_num]))),end="\r")
+            print("----下载成功----\n")
+            print("各个标签概率为：")
             while True:
                 data = recv_line(ser)
-                print(bytes.decode(data))
-                if data ==b'\rfinish\r\n':
+                if data == b'\rpridicted number is:\r\n':
+                    print(bytes.decode(data[0:len(data)-1]))
+                    data = recv_line(ser)
+                    print(bytes.decode(data))
+                    predictlab = data[1]-48
+                    if thislab == predictlab:
+                        correctnum = correctnum + 1
+                        print("图片标签为：{}，预测值为：{}，结果正确！\n".format(thislab,predictlab))
+                    else:
+                        errornum =errornum +1
+                        print("图片标签为：{}，预测值为：{}，结果错误！\n".format(thislab,predictlab))
+                elif data[0:10] ==b'\ruse time:': 
+                    print(bytes.decode(data[0:len(data)-1]))
+                    usetime_str = bytes.decode(data[10:len(data)-2])
+                    #print(usetime_str)
+                    usetime = int(usetime_str) / 32768
+                    print("计算用时：{}s\n".format(usetime))
+                elif data ==b'\rfinish\r\n':
+                    print("正确率为：{}%\n".format((correctnum*100)/(pit_num+1)))
                     break
+
+                else:
+                    print(bytes.decode(data[0:len(data)-1]))
+
+        print("10000张测试照片总正确率为：{}%\n".format((correctnum*100)/10000))
+        print("10000张照片计算总用时：{}s\n".format(usetime))
+        
 
