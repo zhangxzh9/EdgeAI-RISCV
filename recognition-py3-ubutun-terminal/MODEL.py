@@ -14,9 +14,33 @@ from tensorflow import keras
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-
+def MNISTtotxt(train_images,train_labels,test_images,test_labels):
+    path = os.path.abspath('.')
+    #设置图片保存路径
+    output_path = '/MNIST_data_output/train_data'
+    try:
+        shutil.rmtree(path + output_path)
+    except OSError:
+        print('dir dose not exits') 
+    os.mkdir(path + output_path)
+    #保存对应位数据
+    for num in range(500):
+        save_file = path+ output_path + "/No.{}-{}.txt".format(num,int(train_labels[num]))
+        np.savetxt(save_file,train_images[num]*255,fmt='%3d',)
+    
+    output_path = '/MNIST_data_output/test_data'
+    try:
+        shutil.rmtree(path + output_path)
+    except OSError:
+        print('dir dose not exits') 
+    os.mkdir(path + output_path)
+    #保存对应位数据
+    for num in range(500):
+        save_file = path+ output_path + "/No.{}-{}.txt".format(num,int(test_labels[num]))
+        np.savetxt(save_file,test_images[num]*255,fmt='%3d',)
+        
 def train_simple():
+    output_path = os.path.abspath('.')
     print('-----step one: download and load up the datasets-----')    
     #fashion_mnist = keras.datasets.mnist
     #(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
@@ -35,7 +59,7 @@ def train_simple():
     test_images = x_test.reshape(-1,784).astype('float32')
     y_test = [np.argmax(y, axis=None, out=None) for y in y_test]
     test_labels =np.array(y_test).reshape(-1,1)
-        
+    MNISTtotxt(train_images,test_labels,test_images,test_labels)#保存成TXT格式
     print('-----step two finsh-----')
     
     print('-----step three: build the model -----')
@@ -49,16 +73,16 @@ def train_simple():
     print('-----successully setup a model -----')
     
     print('-----step five: save the model -----')
-    saved_model_dir ='./model_data'
+    
+    
     try:
-        shutil.rmtree(saved_model_dir)
+        shutil.rmtree('./model_data')
     except OSError:
         print('dir dose not exits') 
-    os.mkdir(saved_model_dir)
-    model.save(saved_model_dir+'/simple_model.h5')
-    model.save_weights(saved_model_dir+'/my_checkpoint')
-    model.save_weights(saved_model_dir+'/weights.h5', save_format = 'h5')
-    
+    os.mkdir('./model_data')
+    model.save('./model_data/simple_model.h5')
+    model.save_weights('./model_data/my_checkpoint')
+    model.save_weights('./model_data/weights.h5', save_format = 'h5')
     print('-----step five finish -----')
     
     print('-----now do a prediction -----')

@@ -105,9 +105,17 @@ if __name__ == '__main__':
     output_path = os.path.abspath('.')+'/MNIST_data_output'
     print(output_path)
     picture_path = '/picture'
-    imgs = parese_idx3(output_path+"/t10k-images.idx3-ubyte")
-    labs = parese_idx1(output_path+"/t10k-labels.idx1-ubyte")
-    imgs = imgs.reshape(-1,784).astype('uint8')
+    try:
+        if sys.argv[2]== '-testall': 
+            imgs = parese_idx3(output_path+"/t10k-images.idx3-ubyte")
+            labs = parese_idx1(output_path+"/t10k-labels.idx1-ubyte")
+            imgs = imgs.reshape(-1,784).astype('uint8')
+        elif sys.argv[2]== '-trainall':
+            imgs = parese_idx3(output_path+"/train-images.idx3-ubyte")
+            labs = parese_idx1(output_path+"/train-labels.idx1-ubyte")
+            imgs = imgs.reshape(-1,784).astype('uint8')
+    except:
+        print('please creat a dir /MNIST_data_output in the current directory and put MNIST data in it')
     #print(imgs[0])
     try:
         os.mkdir(output_path+picture_path)
@@ -142,7 +150,7 @@ if __name__ == '__main__':
         print('could not open '+sys.argv[1]+' please check u connection')
         exit();
 
-    if sys.argv[2]== '-testall':
+    if sys.argv[2]== ('-testall' or '-trainall'):
         while True:
             data = recv_line(ser)
             print(bytes.decode(data))
@@ -207,15 +215,15 @@ if __name__ == '__main__':
                     usetime_str = bytes.decode(data[10:len(data)-2])
                     #print(usetime_str)
                     usetime = int(usetime_str) / 32768
-                    print("计算用时：{}s\n".format(usetime))
+                    print("计算用时：{:2}s\n".format(usetime))
                 elif data ==b'\rfinish\r\n':
-                    print("正确率为：{}%\n".format((correctnum*100)/(pit_num+1)))
+                    print("正确率为：{:2%}\n".format(correctnum/(pit_num+1)))
                     break
 
                 else:
                     print(bytes.decode(data[0:len(data)-1]))
 
-        print("10000张测试照片总正确率为：{}%\n".format((correctnum*100)/10000))
-        print("10000张照片计算总用时：{}s\n".format(usetime))
-        
 
+        print("{}张测试照片总正确率为：{:2%}%\n".format(len(imgs),correctnum/len(imgs)))
+        print("{}张照片计算总用时：{:2}s\n".format(len(imgs),usetime))
+    
