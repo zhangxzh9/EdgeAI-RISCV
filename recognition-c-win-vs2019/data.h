@@ -23,6 +23,7 @@ typedef short int int16_t;
 
 
 extern const uint8_t test_data[3][784];
+extern const uint8_t test_labels[3];
 extern const float In_Neuron[In][Neuron];
 extern const float Neuron_Out[Neuron][Out];
 extern const float bias0[Neuron];

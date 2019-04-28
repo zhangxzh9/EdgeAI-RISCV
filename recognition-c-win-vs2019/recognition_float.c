@@ -84,8 +84,9 @@ int main(int argc, char **argv)
 	float var[In] = {0.0};
 	uint8_t res,j;
 
-	while (1) {
+
 		for (j = 0; j < 3; j++) {
+			printf("NO.%d picture label is %d\n" , j , test_labels[j]);
 			for (i = 0; i < 784; i++)
 			{
 				var[i] = test_data[j][i] / 255.0;
@@ -97,7 +98,6 @@ int main(int argc, char **argv)
 			}
 			printf("prection is %d\n\n", res);
 		}
-	}
 	
 	return 0;
 }

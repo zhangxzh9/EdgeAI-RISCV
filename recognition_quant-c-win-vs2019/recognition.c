@@ -93,16 +93,16 @@ int main(int argc, char **argv)
 	uint8_t i = 0,j = 0;
 	int8_t num = -1;
 
-	while (1) {
+
 		for (j = 0; j < 3; j++) {
+			printf("NO.%d picture label is %d\n", j, test_labels[j]);
 			num = result(test_data[j]);
 					for (i = 0; i < Out; i++)
 					{
 						printf("%d:%f\n", i, Output[i]);
 					}
-			printf("predict NO.%d num is: %d\n", j, num);
+			printf("quantized model predict NO.%d num is: %d\n\n", j, num);
 		}
-	}
 	
 	return 0;
 }

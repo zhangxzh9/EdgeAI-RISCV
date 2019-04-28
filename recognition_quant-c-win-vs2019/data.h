@@ -23,6 +23,7 @@ typedef short int int16_t;
 #define Neuron 48
 
 extern uint8_t test_data[3][784];
+extern uint8_t test_labels[3];
 extern uint8_t In_Neuron[In][Neuron];
 extern uint8_t Neuron_Out[Neuron][Out];
 extern int16_t bias0[Neuron];
