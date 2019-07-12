@@ -14,7 +14,7 @@ float my_exp(float x)
 	return x;
 }
 
-//对每一行进行softmax
+//瀵规瘡涓�琛岃繘琛宻oftmax
 void softmax(float* x, unsigned char row, unsigned char column)
 {
 	uint8_t k, j;
