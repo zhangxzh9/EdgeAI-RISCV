@@ -1,0 +1,11 @@
+{
+    "tasks": [
+        {
+			"label": "gcc.exe build active file",
+            "type": "shell",
+            "command": "mingw32-make",//执行的命令,make文件路径 我这里配置了环境变量,所以可以直接写
+            "args": ["${fileBasenameNoExtension}"]//执行的时候后面附加的参数
+        }
+    ],
+    "version": "2.0.0"
+}
