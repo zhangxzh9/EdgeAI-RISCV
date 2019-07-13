@@ -61,13 +61,13 @@ int main(int argc, char **argv)
     uint64_t begintime = 0,endtime = 0;
     uint64_t usetime = 0,thistime = 0;
     
-    for (j = 0; j < 3; j++) {
-		num = result(test_data[j]);
-		for (i = 0; i < Out; i++){
-			printf("%d:%f \r\n", i, Output[i]);
-		}
-		printf("predict NO.%d num is: %d \r\n", j, num);
-	}
+ //   for (j = 0; j < 3; j++) {
+	//	num = result(test_data[j]);
+	//	for (i = 0; i < Out; i++){
+	//		printf("%d:%f \r\n", i, Output[i]);
+	//	}
+	//	printf("predict NO.%d num is: %d \r\n", j, num);
+	//}
     printf("finish\r\n");
 	while(1){
 		while(1){

@@ -109,7 +109,7 @@ int main(int argc, char **argv)
     uint64_t usetime = 0,thistime = 0;
     
     
-    for (i = 0; i < 3; i++) {
+/*     for (i = 0; i < 3; i++) {
         for (j = 0; j < 784; j++)
         {
             var[j] = test_data[i][j] / 255.0;
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
             printf("%d:%f\r\n", j, Output[j]);
         }
         printf("predict NO.%d num is: %d \r\n", i, num);
-    }
+    } */
     printf("finish\r\n");
     
     while (1) {

@@ -62,9 +62,6 @@ def parese_idx1(idx1_file):
         offset += struct.calcsize(fmt_image)
     return labels
 
-
-
- 
  
 def recv_all(serial):
     data = ''
@@ -101,7 +98,7 @@ def recv_line(serial):
     return data
 
 if __name__ == '__main__':
-
+    #read MNIST data
     output_path = os.path.abspath('.')+'/MNIST_data_output'
     print(output_path)
     picture_path = '/picture'
@@ -116,7 +113,7 @@ if __name__ == '__main__':
             imgs = imgs.reshape(-1,784).astype('uint8')
     except:
         print('please creat a dir /MNIST_data_output in the current directory and put MNIST data in it')
-    #print(imgs[0])
+    #output picture data
     try:
         os.mkdir(output_path+picture_path)
         for i in range(100):
@@ -142,7 +139,7 @@ if __name__ == '__main__':
             np.savetxt(save_file,img,fmt='%3d',)
     except OSError:
         print('dir exits') 
-
+    #open ttyUSB device
     try:
         ser = Serial(sys.argv[1], 115200, timeout=0.5)
         print('open '+sys.argv[1]+' and connect the E203 successfully !')
@@ -150,7 +147,16 @@ if __name__ == '__main__':
         print('could not open '+sys.argv[1]+' please check u connection')
         exit();
 
-    if sys.argv[2]== ('-testall' or '-trainall'):
+    if sys.argv[2]== '-testall' or sys.argv[2]== '-trainall':
+        test_path = os.path.abspath('.')+ '/model_data'
+        try:
+            if sys.argv[2]== '-testall':
+                f = open(test_path+'/test.txt','a')
+            else:
+                f = open(test_path+'/train.txt','a')
+        except:
+            print('could not open file in '+ test_path)
+            exit();
         while True:
             data = recv_line(ser)
             print(bytes.decode(data))
@@ -215,15 +221,33 @@ if __name__ == '__main__':
                     usetime_str = bytes.decode(data[10:len(data)-2])
                     #print(usetime_str)
                     usetime = int(usetime_str) / 32768
-                    print("计算用时：{:2}s\n".format(usetime))
+                    print("计算用时：{:.2f}s\n".format(usetime))
                 elif data ==b'\rfinish\r\n':
-                    print("正确率为：{:2%}\n".format(correctnum/(pit_num+1)))
+                    print("正确率为：{:.2%}\n".format(correctnum/(pit_num+1)))
                     break
-
                 else:
                     print(bytes.decode(data[0:len(data)-1]))
+            if sys.argv[2]== '-testall':
+                if (pit_num+1) % 200 == 0:
+                    f.write(str(pit_num+1))
+                    f.write(':')
+                    f.write(' usetime: ')
+                    f.write(str(round(usetime,2)))
+                    f.write(' accuracy: ')
+                    f.write(str(round(100*correctnum/(pit_num+1),2)))
+                    f.write('\n')
+            else:
+                if (pit_num+1)% 500 == 0:
+                    f.write(str(pit_num+1))
+                    f.write(':')
+                    f.write(' usetime: ')
+                    f.write(str(round(usetime,2)))
+                    f.write(' accuracy: ')
+                    f.write(str(round(100*correctnum/(pit_num+1),2)))
+                    f.write('\n')
 
 
-        print("{}张测试照片总正确率为：{:2%}%\n".format(len(imgs),correctnum/len(imgs)))
-        print("{}张照片计算总用时：{:2}s\n".format(len(imgs),usetime))
-    
+
+        print("{}张测试照片总正确率为：{:.2%}\n".format(len(imgs),correctnum/len(imgs)))
+        print("{}张照片计算总用时：{:.2f}s\n".format(len(imgs),usetime))
+        f.close()
